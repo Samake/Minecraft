@@ -19,6 +19,7 @@ function BlockS:constructor(parent, blockProperties)
 	self.x = blockProperties.x
 	self.y = blockProperties.y
 	self.z = blockProperties.z - 0.5
+	self.color = blockProperties.color
 	self.rx = 0
 	self.ry = 0
 	self.rz = 0
@@ -188,6 +189,8 @@ end
 function BlockS:destructor()
 
 	self:clear()
+	
+	triggerClientEvent("onBlockDestroyed", root, self.x, self.y, self.z, self.color.r, self.color.g, self.color.b, self.color.a, 0.015, 25)
 	
 	mainOutput("BlockS " .. self.type .. " with id " .. self.id .. " was destroyed.")
 end

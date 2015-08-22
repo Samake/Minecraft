@@ -9,6 +9,7 @@
 	<script src="client/handler/ActionHandlerC.lua" type="client" />
 	<script src="client/handler/InventoryHandlerC.lua" type="client" />
 	<script src="client/classes/BlockCursorC.lua" type="client" />
+	<script src="client/classes/BlockEventsC.lua" type="client" />
 	
 	<!-- server scripts  -->
 	<script src="server/system/MainClassS.lua" type="server" />

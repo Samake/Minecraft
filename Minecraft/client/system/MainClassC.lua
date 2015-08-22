@@ -41,6 +41,10 @@ function MainClassC:init()
 	if (not self.blockCursor) then
 		self.blockCursor = new(BlockCursorC, self)
 	end
+	
+	if (not self.blockEvents) then
+		self.blockEvents = new(BlockEventsC, self)
+	end
 end
 
 
@@ -87,6 +91,11 @@ function MainClassC:clear()
 	if (self.blockCursor) then
 		delete(self.blockCursor)
 		self.blockCursor = nil
+	end
+	
+	if (self.blockEvents) then
+		delete(self.blockEvents)
+		self.blockEvents = nil
 	end
 end
 

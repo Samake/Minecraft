@@ -24,12 +24,12 @@ function BlockManagerS:constructor(parent)
 	self.blockModelIDs["glassWhiteBlock"] = 1856
 	
 	self.blockTypeAttributes = {}
-	self.blockTypeAttributes["stoneBlock"] = {life = 3000, needsUpdate = "false"}
-	self.blockTypeAttributes["dirtBlock"] = {life = 1000, needsUpdate = "true"}
-	self.blockTypeAttributes["grassBlock"] = {life = 1000, needsUpdate = "true"}
-	self.blockTypeAttributes["grassPlant"] = {life = 100, needsUpdate = "true"}
-	self.blockTypeAttributes["sandBlock"] = {life = 900, needsUpdate = "true"}
-	self.blockTypeAttributes["glassWhiteBlock"] = {life = 250, needsUpdate = "false"}
+	self.blockTypeAttributes["stoneBlock"] = {life = 3000, needsUpdate = "false", color = {r = 90, g = 90, b = 90, a = 200}}
+	self.blockTypeAttributes["dirtBlock"] = {life = 1000, needsUpdate = "true", color = {r = 80, g = 35, b = 5, a = 200}}
+	self.blockTypeAttributes["grassBlock"] = {life = 1000, needsUpdate = "true", color = {r = 35, g = 128, b = 35, a = 200}}
+	self.blockTypeAttributes["grassPlant"] = {life = 100, needsUpdate = "true", color = {r = 35, g = 128, b = 35, a = 200}}
+	self.blockTypeAttributes["sandBlock"] = {life = 900, needsUpdate = "true", color = {r = 160, g = 140, b = 25, a = 200}}
+	self.blockTypeAttributes["glassWhiteBlock"] = {life = 250, needsUpdate = "false", color = {r = 100, g = 100, b = 130, a = 90}}
 	
 	self.m_Update = bind(self.update, self)
 	self.updateTimer = setTimer(self.m_Update, self.updateInterval, 0)
@@ -65,10 +65,13 @@ function BlockManagerS:createBlock(player, type, x, y, z)
 		blockProperties.x = x
 		blockProperties.y = y
 		blockProperties.z = z
+		blockProperties.color = self.blockTypeAttributes[type].color
 
 		if (not self.blocks[blockProperties.id]) then
 			self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
 		end
+		
+		blockProperties = nil
 		
 		if (self.blocks[blockProperties.id]) then
 			-- remove item count on player
