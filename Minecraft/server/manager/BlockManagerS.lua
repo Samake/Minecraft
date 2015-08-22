@@ -71,11 +71,11 @@ function BlockManagerS:createBlock(player, type, x, y, z)
 			self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
 		end
 		
-		blockProperties = nil
-		
 		if (self.blocks[blockProperties.id]) then
 			-- remove item count on player
 		end
+		
+		blockProperties = nil
 	end
 end
 
@@ -106,6 +106,8 @@ function BlockManagerS:addGrassPlant(type, x, y, z)
 		if (not self.blocks[blockProperties.id]) then
 			self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
 		end
+		
+		blockProperties = nil
 	end
 end
 
