@@ -21,6 +21,7 @@ function BlockManagerS:constructor(parent)
 	self.blockModelIDs["grassBlock"] = 1853
 	self.blockModelIDs["grassPlant"] = 1854
 	self.blockModelIDs["sandBlock"] = 1855
+	self.blockModelIDs["glassWhiteBlock"] = 1856
 	
 	self.blockTypeAttributes = {}
 	self.blockTypeAttributes["stoneBlock"] = {life = 3000}
@@ -28,6 +29,7 @@ function BlockManagerS:constructor(parent)
 	self.blockTypeAttributes["grassBlock"] = {life = 1000}
 	self.blockTypeAttributes["grassPlant"] = {life = 100}
 	self.blockTypeAttributes["sandBlock"] = {life = 900}
+	self.blockTypeAttributes["glassWhiteBlock"] = {life = 250}
 	
 	self.m_Update = bind(self.update, self)
 	self.updateTimer = setTimer(self.m_Update, self.updateInterval, 0)
@@ -74,7 +76,6 @@ function BlockManagerS:deleteBlock(id)
 		if (self.blocks[id]) then
 			delete(self.blocks[id])
 			self.blocks[id] = nil
-			--table.remove(self.blocks, id)
 		end
 	end
 end

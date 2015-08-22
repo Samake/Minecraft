@@ -8,7 +8,7 @@
 PlayerS = {}
 
 function PlayerS:constructor(parent, player, id)
-	mainOutput("PlayerS " .. id .. " was loaded.")
+	mainOutput("PlayerS " .. tostring(player) .. " with id: " .. id .. " was loaded.")
 	
 	self.playerManager = parent
 	self.player = player
@@ -18,6 +18,7 @@ function PlayerS:constructor(parent, player, id)
 	self.slots[2] = {item = "dirtBlock", count = 999}
 	self.slots[3] = {item = "grassBlock", count = 999}
 	self.slots[4] = {item = "sandBlock", count = 999}
+	self.slots[5] = {item = "glassWhiteBlock", count = 999}
 	
 	self.currentSlot = 1
 	
@@ -83,5 +84,5 @@ function PlayerS:destructor()
 	removeEventHandler("onClientResetAnimation", root, self.m_ResetAnimation)
 	removeEventHandler("onPlayerSwitchSlot", root, self.m_OnPlayerSwitchSlot)
 
-	mainOutput("PlayerS " .. self.id .. " was deleted.")
+	mainOutput("PlayerS " .. tostring(self.player) .. " with id: " .. self.id .. " was deleted.")
 end

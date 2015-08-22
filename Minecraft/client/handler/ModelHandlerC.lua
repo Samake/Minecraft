@@ -29,14 +29,14 @@ function ModelHandlerC:constructor(parent)
 	-- ids 1851 - 1882
 	
 	self.blockStoneID = 1851
-	self.blockStoneModel = engineLoadDFF("res/models/stoneBlock.dff", self.terrainID)
+	self.blockStoneModel = engineLoadDFF("res/models/stoneBlock.dff", self.blockStoneID)
 		
 	engineImportTXD(self.texturePack, self.blockStoneID)
 	engineReplaceModel(self.blockStoneModel, self.blockStoneID)
 	engineReplaceCOL(self.blockCol, self.blockStoneID)
 	
 	self.blockDirtID = 1852
-	self.blockDirtModel = engineLoadDFF("res/models/dirtBlock.dff", self.terrainID)
+	self.blockDirtModel = engineLoadDFF("res/models/dirtBlock.dff", self.blockDirtID)
 		
 	engineImportTXD(self.texturePack, self.blockDirtID)
 	engineReplaceModel(self.blockDirtModel, self.blockDirtID)
@@ -44,24 +44,31 @@ function ModelHandlerC:constructor(parent)
 	
 	
 	self.blockGrassID = 1853
-	self.blockGrassModel = engineLoadDFF("res/models/grassBlock.dff", self.terrainID)
+	self.blockGrassModel = engineLoadDFF("res/models/grassBlock.dff", self.blockGrassID)
 		
 	engineImportTXD(self.texturePack, self.blockGrassID)
 	engineReplaceModel(self.blockGrassModel, self.blockGrassID)
 	engineReplaceCOL(self.blockCol, self.blockGrassID)
 	
 	self.grassPlantID = 1854
-	self.grassPlantModel = engineLoadDFF("res/models/grassPlant.dff", self.terrainID)
+	self.grassPlantModel = engineLoadDFF("res/models/grassPlant.dff", self.grassPlantID)
 		
 	engineImportTXD(self.texturePack, self.grassPlantID)
 	engineReplaceModel(self.grassPlantModel, self.grassPlantID)
 	
 	self.blockSandID = 1855
-	self.blockSandModel = engineLoadDFF("res/models/sandBlock.dff", self.terrainID)
+	self.blockSandModel = engineLoadDFF("res/models/sandBlock.dff", self.blockSandID)
 		
 	engineImportTXD(self.texturePack, self.blockSandID)
 	engineReplaceModel(self.blockSandModel, self.blockSandID)
 	engineReplaceCOL(self.blockCol, self.blockSandID)
+	
+	self.blockGlassWhiteID = 1856
+	self.blockGlassWhiteModel = engineLoadDFF("res/models/glassWhiteBlock.dff", self.blockGlassWhiteID)
+		
+	engineImportTXD(self.texturePack, self.blockGlassWhiteID)
+	engineReplaceModel(self.blockGlassWhiteModel, self.blockGlassWhiteID)
+	engineReplaceCOL(self.blockCol, self.blockGlassWhiteID)
 
 	self:setLodDistance()
 end
