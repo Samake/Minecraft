@@ -20,6 +20,7 @@ function BlockS:constructor(parent, blockProperties)
 	self.y = blockProperties.y
 	self.z = blockProperties.z - 0.5
 	self.color = blockProperties.color
+	self.parent = blockProperties.parent
 	self.rx = 0
 	self.ry = 0
 	self.rz = 0
@@ -39,6 +40,12 @@ function BlockS:constructor(parent, blockProperties)
 	if (self.type == "grassPlant") then
 		self.rx = 90
 		self.z = blockProperties.z - 1.0
+	end
+	
+	self.childBlock = nil
+	
+	if (self.parent) then
+		self.parent.childBlock = self.id
 	end
 	
 	self.hasBlockBottom = "true"
@@ -108,8 +115,6 @@ function BlockS:update()
 					self.blockModel:setPosition(self.x, self.y, self.z)
 					self.blockModelLOD:setPosition(self.x, self.y, self.z)
 				end
-			elseif (self.type == "grassPlant") then
-				--self.blockManager:deleteBlock(self.id) 
 			end
 		end
 	end
@@ -143,7 +148,7 @@ end
 
 
 function BlockS:growGrass()
-	self.blockManager:addGrassPlant("grassPlant", self.x, self.y, self.z + 1.5)
+	self.blockManager:addGrassPlant("grassPlant", self.x, self.y, self.z + 1.5, self)
 	self.hasGrass = "true"
 end
 
@@ -183,6 +188,10 @@ function BlockS:clear()
 		self.blockModelLOD:destroy()
 		self.blockModelLOD= nil
 	end
+	
+	if (self.childBlock) then
+		self.blockManager:deleteBlock(self.childBlock)
+	end
 end
 
 
@@ -190,7 +199,7 @@ function BlockS:destructor()
 
 	self:clear()
 	
-	triggerClientEvent("onBlockDestroyed", root, self.x, self.y, self.z, self.color.r, self.color.g, self.color.b, self.color.a, 0.015, 25)
+	triggerClientEvent("onBlockDestroyed", root, self.x, self.y, self.z, self.color.r, self.color.g, self.color.b, self.color.a, 0.015, 10)
 	
 	mainOutput("BlockS " .. self.type .. " with id " .. self.id .. " was destroyed.")
 end

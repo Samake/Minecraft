@@ -53,8 +53,8 @@ function BlockManagerS:update()
 end
 
 
-function BlockManagerS:createBlock(player, type, x, y, z)
-	if (player) and (x) and (y) and (z) then
+function BlockManagerS:createBlock(player, type, x, y, z, parent)
+	if (player) and (type) and (x) and (y) and (z) then
 		local blockProperties = {}
 		blockProperties.id = tostring(hash("md5", x .. y .. z))
 		blockProperties.modelID = self.blockModelIDs[type]
@@ -66,9 +66,15 @@ function BlockManagerS:createBlock(player, type, x, y, z)
 		blockProperties.y = y
 		blockProperties.z = z
 		blockProperties.color = self.blockTypeAttributes[type].color
-
+		blockProperties.parent = parent
+		
 		if (not self.blocks[blockProperties.id]) then
 			self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
+		else
+			if (self.blocks[blockProperties.id].type == "grassPlant") then
+				self:deleteBlock(blockProperties.id)
+				self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
+			end
 		end
 		
 		if (self.blocks[blockProperties.id]) then
@@ -90,24 +96,9 @@ function BlockManagerS:deleteBlock(id)
 end
 
 
-function BlockManagerS:addGrassPlant(type, x, y, z)
-	if (x) and (y) and (z) then
-		local blockProperties = {}
-		blockProperties.id = tostring(hash("md5", x .. y .. z))
-		blockProperties.modelID = self.blockModelIDs[type]
-		blockProperties.type = type
-		blockProperties.life = self.blockTypeAttributes[type].life
-		blockProperties.needsUpdate = self.blockTypeAttributes[type].needsUpdate
-		blockProperties.owner = "system"
-		blockProperties.x = x
-		blockProperties.y = y
-		blockProperties.z = z
-		
-		if (not self.blocks[blockProperties.id]) then
-			self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
-		end
-		
-		blockProperties = nil
+function BlockManagerS:addGrassPlant(type, x, y, z, parent)
+	if (type) and (x) and (y) and (z) and (parent) then
+		self:createBlock("system", type, x, y, z, parent)
 	end
 end
 

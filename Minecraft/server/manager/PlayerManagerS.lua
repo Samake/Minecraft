@@ -19,14 +19,22 @@ function PlayerManagerS:constructor(parent)
 	self.spawnPlaces[5] = {x = -3000, y = -3020, z = 7}
 
 	self.players = {}
-	self.fadeTime = 2000
+	self.spawnTime = 2000
 	
-	self.m_FadeIN = bind(self.fadeIN, self)
+	self.m_SpawnPlayer = bind(self.spawnPlayer, self)
+	self.m_SpawnAllPlayers = bind(self.spawnAllPlayers, self)
+	
+	self.m_OnPlayerJoin = bind(self.onPlayerJoin, self)
+	addEventHandler("onPlayerJoin", root, self.m_OnPlayerJoin)
+	
 	self.m_OnPlayerSpawn = bind(self.onPlayerSpawn, self)
 	addEventHandler("onPlayerSpawn", root, self.m_OnPlayerSpawn)
 	
 	self.m_OnPlayerWasted = bind(self.onPlayerWasted, self)
 	addEventHandler("onPlayerWasted", root, self.m_OnPlayerWasted)
+	
+	self.m_OnPlayerQuit = bind(self.onPlayerQuit, self)
+	addEventHandler("onPlayerQuit", root, self.m_OnPlayerQuit)
 	
 	self:init()
 end
@@ -41,33 +49,73 @@ function PlayerManagerS:init()
         end
     end
 	
-	setTimer(self.m_FadeIN, self.fadeTime, 1)	
+	setTimer(self.m_SpawnAllPlayers, self.spawnTime, 1)	
 end
 
 
-function PlayerManagerS:fadeIN()
+function PlayerManagerS:onPlayerJoin()
+	local player = source
+	
+	for index, playerInstance in pairs(self.players) do
+        if (playerInstance) then
+            if (playerInstance.player == player) then
+				return
+			end	
+        end
+    end
+	
+	local id = self:getNextFreeId()
+    self.players[id] = new(PlayerS, self, player, id)
+	
+	setTimer(self.m_SpawnPlayer, self.spawnTime, 1, player)	
+end
+
+
+function PlayerManagerS:onPlayerSpawn()
+	fadeCamera(source, true, 1.0, 255, 255, 255)
+end
+
+
+function PlayerManagerS:onPlayerWasted()
+	local player = source
+	fadeCamera(player, false, 0.1, 0, 0, 0)
+	setTimer(self.m_SpawnPlayer, self.spawnTime, 1, player)	
+end
+
+
+function PlayerManagerS:onPlayerQuit()
+	local player = source
+	
+	self:removePlayerInstance(player)
+end
+
+
+function PlayerManagerS:spawnAllPlayers()
 	for index, player in pairs(getElementsByType("player")) do
         if (player) then
-			local x, y, z = self:getRandomSpawn()
-			spawnPlayer(player, -3000, -3000, 7)
-			fadeCamera(player, true, 1.0, 255, 255, 255)
+			self:spawnPlayer(player)
         end
     end
 end
 
 
-function PlayerManagerS:onPlayerWasted()
-	fadeCamera(source, false, 0.1, 0, 0, 0)
-	self:respawnPlayer(source)
-end
-
-
-function PlayerManagerS:respawnPlayer(player)
+function PlayerManagerS:spawnPlayer(player)
 	if (player) then
 		local x, y, z = self:getRandomSpawn()
 		spawnPlayer(player, -3000, -3000, 7)
-		fadeCamera(player, true, 1.0, 255, 255, 255)
 	end
+end
+
+
+function PlayerManagerS:removePlayerInstance(player)
+	for index, playerInstance in pairs(self.players) do
+        if (playerInstance) then
+            if (playerInstance.player == player) then
+				delete(playerInstance)
+				playerInstance = nil
+			end
+        end
+    end
 end
 
 
@@ -75,20 +123,6 @@ function PlayerManagerS:getRandomSpawn()
 	local randomSpawn = math.random(1, #self.spawnPlaces)
 
 	return self.spawnPlaces[randomSpawn].x, self.spawnPlaces[randomSpawn].y, self.spawnPlaces[randomSpawn].z
-end
-
-
-function PlayerManagerS:onPlayerSpawn()
-	for index, playerInstance in pairs(self.players) do
-        if (playerInstance) then
-            if (playerInstance.player == source) then
-				return
-			end	
-        end
-    end
-	
-	local id = self:getNextFreeId()
-    self.players[id] = new(PlayerS, self, source, id)
 end
 
 
@@ -114,8 +148,10 @@ end
 
 
 function PlayerManagerS:destructor()
+	removeEventHandler("onPlayerJoin", root, self.m_OnPlayerJoin)
 	removeEventHandler("onPlayerSpawn", root, self.m_OnPlayerSpawn)
 	removeEventHandler("onPlayerWasted", root, self.m_OnPlayerWasted)
+	removeEventHandler("onPlayerQuit", root, self.m_OnPlayerQuit)
 
 	self:clear()
 	
