@@ -60,6 +60,7 @@ function removeHEXColorCode(text)
     return text:gsub('#%x%x%x%x%x%x', '')
 end
 
+
 -- ############# isElementMoving ############## -- 
 function isElementMoving(theElement)
     if (isElement(theElement)) then

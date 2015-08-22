@@ -1,6 +1,6 @@
 --[[
 	Name: Minecraft
-	Filename: utils.lua
+	Filename: MainClassS.lua
 	Authors: Sam@ke
 --]]
 
@@ -53,12 +53,12 @@ end
 
 
 function MainClassS:destructor()
-
 	self:clear()
 
 	mainOutput("MainClassS was deleted.")
 	mainOutput("SERVER // ***** Minecraft was closed *****")
 end
+
 
 addEventHandler("onResourceStart", resourceRoot,
 function()

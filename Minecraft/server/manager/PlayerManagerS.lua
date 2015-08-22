@@ -73,9 +73,8 @@ end
 
 function PlayerManagerS:getRandomSpawn()
 	local randomSpawn = math.random(1, #self.spawnPlaces)
-	local x, y, z = self.spawnPlaces[randomSpawn].x, self.spawnPlaces[randomSpawn].y, self.spawnPlaces[randomSpawn].z
-	
-	return x, y, z
+
+	return self.spawnPlaces[randomSpawn].x, self.spawnPlaces[randomSpawn].y, self.spawnPlaces[randomSpawn].z
 end
 
 
