@@ -24,12 +24,12 @@ function BlockManagerS:constructor(parent)
 	self.blockModelIDs["glassWhiteBlock"] = 1856
 	
 	self.blockTypeAttributes = {}
-	self.blockTypeAttributes["stoneBlock"] = {life = 3000}
-	self.blockTypeAttributes["dirtBlock"] = {life = 1000}
-	self.blockTypeAttributes["grassBlock"] = {life = 1000}
-	self.blockTypeAttributes["grassPlant"] = {life = 100}
-	self.blockTypeAttributes["sandBlock"] = {life = 900}
-	self.blockTypeAttributes["glassWhiteBlock"] = {life = 250}
+	self.blockTypeAttributes["stoneBlock"] = {life = 3000, needsUpdate = "false"}
+	self.blockTypeAttributes["dirtBlock"] = {life = 1000, needsUpdate = "true"}
+	self.blockTypeAttributes["grassBlock"] = {life = 1000, needsUpdate = "true"}
+	self.blockTypeAttributes["grassPlant"] = {life = 100, needsUpdate = "true"}
+	self.blockTypeAttributes["sandBlock"] = {life = 900, needsUpdate = "true"}
+	self.blockTypeAttributes["glassWhiteBlock"] = {life = 250, needsUpdate = "false"}
 	
 	self.m_Update = bind(self.update, self)
 	self.updateTimer = setTimer(self.m_Update, self.updateInterval, 0)
@@ -55,16 +55,22 @@ end
 
 function BlockManagerS:createBlock(player, type, x, y, z)
 	if (player) and (x) and (y) and (z) then
-		local modelID = self.blockModelIDs[type]
-		local life = self.blockTypeAttributes[type].life
-		local bx, by, bz = x, y, z
-		local id = tostring(hash("md5", bx .. by .. bz))
-		
-		if (not self.blocks[id]) then
-			self.blocks[id] = new(BlockS, self, id, modelID, type, life, player, bx, by, bz)
+		local blockProperties = {}
+		blockProperties.id = tostring(hash("md5", x .. y .. z))
+		blockProperties.modelID = self.blockModelIDs[type]
+		blockProperties.type = type
+		blockProperties.life = self.blockTypeAttributes[type].life
+		blockProperties.needsUpdate = self.blockTypeAttributes[type].needsUpdate
+		blockProperties.owner = player
+		blockProperties.x = x
+		blockProperties.y = y
+		blockProperties.z = z
+
+		if (not self.blocks[blockProperties.id]) then
+			self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
 		end
 		
-		if (self.blocks[id]) then
+		if (self.blocks[blockProperties.id]) then
 			-- remove item count on player
 		end
 	end
@@ -83,13 +89,19 @@ end
 
 function BlockManagerS:addGrassPlant(type, x, y, z)
 	if (x) and (y) and (z) then
-		local modelID = self.blockModelIDs[type]
-		local life = self.blockTypeAttributes[type].life
-		local bx, by, bz = x, y, z
-		local id = tostring(hash("md5", bx .. by .. bz))
+		local blockProperties = {}
+		blockProperties.id = tostring(hash("md5", x .. y .. z))
+		blockProperties.modelID = self.blockModelIDs[type]
+		blockProperties.type = type
+		blockProperties.life = self.blockTypeAttributes[type].life
+		blockProperties.needsUpdate = self.blockTypeAttributes[type].needsUpdate
+		blockProperties.owner = "system"
+		blockProperties.x = x
+		blockProperties.y = y
+		blockProperties.z = z
 		
-		if (not self.blocks[id]) then
-			self.blocks[id] = new(BlockS, self, id, modelID, type, life, "system", bx, by, bz)
+		if (not self.blocks[blockProperties.id]) then
+			self.blocks[blockProperties.id] = new(BlockS, self, blockProperties)
 		end
 	end
 end

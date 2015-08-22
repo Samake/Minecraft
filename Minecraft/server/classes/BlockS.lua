@@ -7,19 +7,18 @@
 
 BlockS = {}
 
-function BlockS:constructor(parent, id, modelID, type, life, owner, x, y, z)
-	mainOutput("BlockS " .. type .. " with id " .. id .. " was loaded.")
+function BlockS:constructor(parent, blockProperties)
 	
 	self.blockManager = parent
-	self.id = id
-	self.newID = nil
-	self.modelID = modelID
-	self.type = type
-	self.life = life
-	self.owner = owner
-	self.x = x
-	self.y = y
-	self.z = z - 0.5
+	self.id = blockProperties.id
+	self.modelID = blockProperties.modelID
+	self.type = blockProperties.type
+	self.life = blockProperties.life
+	self.needsUpdate = blockProperties.needsUpdate
+	self.owner = blockProperties.owner
+	self.x = blockProperties.x
+	self.y = blockProperties.y
+	self.z = blockProperties.z - 0.5
 	self.rx = 0
 	self.ry = 0
 	self.rz = 0
@@ -38,13 +37,15 @@ function BlockS:constructor(parent, id, modelID, type, life, owner, x, y, z)
 	
 	if (self.type == "grassPlant") then
 		self.rx = 90
-		self.z = z - 1.0
+		self.z = blockProperties.z - 1.0
 	end
 	
 	self.hasBlockBottom = "true"
 	self.hasBlockTop = "false"
 	
 	self:init()
+	
+	mainOutput("BlockS " .. self.type .. " with id " .. self.id .. " was created.")
 end
 
 
@@ -70,40 +71,44 @@ end
 
 
 function BlockS:update()
-	self:checkIfBlockBottom()
-	
-	if (self.type == "grassPlant") then
-		if (self.seedFactor < 0.9) then
-			self.seedFactor = self.seedFactor + self.seedValue
-			
-			self.newZ = self.z + self.seedFactor
-			
-			if (self.blockModel) and (self.blockModelLOD) then
-				self.blockModel:setPosition(self.x, self.y, self.newZ)
-				self.blockModelLOD:setPosition(self.x, self.y, self.newZ)
+	if (self.needsUpdate == "true") then
+		self:checkIfBlockBottom()
+		
+		if (self.type == "grassPlant") then
+			if (self.seedFactor < 0.9) then
+				self.seedFactor = self.seedFactor + self.seedValue
+				
+				self.newZ = self.z + self.seedFactor
+				
+				if (self.blockModel) and (self.blockModelLOD) then
+					self.blockModel:setPosition(self.x, self.y, self.newZ)
+					self.blockModelLOD:setPosition(self.x, self.y, self.newZ)
+				end
 			end
 		end
-	end
-	
-	if (self.hasBlockTop == "false") then
-		if (self.type == "dirtBlock") or (self.type == "grassBlock") then
-			setTimer(self.m_GrowBlock, self.growTime, 1)
-		end
-	elseif (self.hasBlockTop == "true") then
-		if (self.type == "dirtBlock") or (self.type == "grassBlock") then
-			if (self.hasGrass == "false") then
-				self:unGrowBlock()
+		
+		if (self.hasBlockTop == "false") then
+			if (self.type == "dirtBlock") or (self.type == "grassBlock") then
+				setTimer(self.m_GrowBlock, self.growTime, 1)
+			end
+		elseif (self.hasBlockTop == "true") then
+			if (self.type == "dirtBlock") or (self.type == "grassBlock") then
+				if (self.hasGrass == "false") then
+					self:unGrowBlock()
+				end
 			end
 		end
-	end
-	
-	if (self.hasBlockBottom == "false") then
-		if (self.type == "sandBlock") then
-			self.z = self.z - self.moveDistance
-			
-			if (self.blockModel) and (self.blockModelLOD) then
-				self.blockModel:setPosition(self.x, self.y, self.z)
-				self.blockModelLOD:setPosition(self.x, self.y, self.z)
+		
+		if (self.hasBlockBottom == "false") then
+			if (self.type == "sandBlock") then
+				self.z = self.z - self.moveDistance
+				
+				if (self.blockModel) and (self.blockModelLOD) then
+					self.blockModel:setPosition(self.x, self.y, self.z)
+					self.blockModelLOD:setPosition(self.x, self.y, self.z)
+				end
+			elseif (self.type == "grassPlant") then
+				--self.blockManager:deleteBlock(self.id) 
 			end
 		end
 	end
@@ -184,5 +189,5 @@ function BlockS:destructor()
 
 	self:clear()
 	
-	mainOutput("BlockS " .. self.type .. " with id " .. self.id .. " was deleted.")
+	mainOutput("BlockS " .. self.type .. " with id " .. self.id .. " was destroyed.")
 end
