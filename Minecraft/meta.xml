@@ -8,6 +8,8 @@
 	<script src="client/handler/ModelHandlerC.lua" type="client" />
 	<script src="client/handler/ActionHandlerC.lua" type="client" />
 	<script src="client/handler/InventoryHandlerC.lua" type="client" />
+	<script src="client/manager/GUIManagerC.lua" type="client" />
+	<script src="client/manager/ShaderManagerC.lua" type="client" />
 	<script src="client/classes/BlockCursorC.lua" type="client" />
 	<script src="client/classes/BlockEventsC.lua" type="client" />
 	
@@ -18,6 +20,7 @@
 	<script src="server/manager/BlockManagerS.lua" type="server" />
 	<script src="server/classes/PlayerS.lua" type="server" />
 	<script src="server/classes/BlockS.lua" type="server" />
+	<script src="server/classes/DoorS.lua" type="server" />
 	
 	<!-- shared scripts  -->
 	<script src="shared/classlib.lua" type="shared" />
@@ -28,12 +31,14 @@
 	<file src="res/models/terrainPlane.dff" type="client"/>
 	<file src="res/models/terrainCol.col" type="client"/>
 	<file src="res/models/blockCol.col" type="client"/>
+	<file src="res/models/doorCol.col" type="client"/>
 	<file src="res/models/stoneBlock.dff" type="client"/>
 	<file src="res/models/dirtBlock.dff" type="client"/>
 	<file src="res/models/grassBlock.dff" type="client"/>
 	<file src="res/models/grassPlant.dff" type="client"/>
 	<file src="res/models/sandBlock.dff" type="client"/>
 	<file src="res/models/glassWhiteBlock.dff" type="client"/>
+	<file src="res/models/doorWood.dff" type="client"/>
 
 </meta>
 

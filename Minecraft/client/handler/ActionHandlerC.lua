@@ -55,8 +55,10 @@ function ActionHandlerC:getCursorCoords()
 			local type = hitElement:getData("OBJECTTYPE")
 			local id = hitElement:getData("ID")
 			
-			if (type) and (type == "MCBLOCK") then
-				self.hitElement =  {element = hitElement, id = id}
+			if (type) then
+				if (type == "MCBLOCK") or (type == "MCDOOR") then
+					self.hitElement =  {element = hitElement, id = id, type = type}
+				end
 			end
 		else
 			self.hitElement = nil
@@ -65,6 +67,8 @@ function ActionHandlerC:getCursorCoords()
 		if (hitX) and (hitY) and (hitZ) then
 			return math.floor(hitX), math.floor(hitY), math.floor(hitZ) + 0.5
 		end
+	else
+		self.hitElement = nil
 	end
 	
 	return nil, nil, nil
@@ -74,6 +78,18 @@ end
 function ActionHandlerC:placeBlock(button, state)
 	if (state == "down") then
 		if (self.tx) and (self.ty) and (self.tz) then
+			if (self.hitElement) then
+				outputChatBox("TEST1")
+				if (isElement(self.hitElement.element)) then
+					outputChatBox("TEST2: " .. tostring(self.hitElement.type))
+					if (self.hitElement.type == "MCDOOR") then
+						outputChatBox("TEST3")
+						triggerServerEvent("onClientDoorAction", root, self.hitElement.element)
+						return
+					end
+				end
+			end
+				
 			triggerServerEvent("onClientPlaceBlock", root, self.player, self.tx, self.ty, self.tz)
 		end
 	elseif (state == "up") then

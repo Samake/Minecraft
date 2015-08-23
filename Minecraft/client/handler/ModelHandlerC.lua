@@ -15,6 +15,7 @@ function ModelHandlerC:constructor(parent)
 	
 	self.texturePack = engineLoadTXD("res/models/minecraft.txd")
 	self.blockCol = engineLoadCOL("res/models/blockCol.col")
+	self.doorCol = engineLoadCOL("res/models/doorCol.col")
 	
 	-- // terrain // --
 	self.terrainID = 15049
@@ -69,6 +70,16 @@ function ModelHandlerC:constructor(parent)
 	engineImportTXD(self.texturePack, self.blockGlassWhiteID)
 	engineReplaceModel(self.blockGlassWhiteModel, self.blockGlassWhiteID)
 	engineReplaceCOL(self.blockCol, self.blockGlassWhiteID)
+	
+	-- // doors // --
+	-- ids 1830 - 1838
+	
+	self.doorWoodID = 1830
+	self.doorWoodModel = engineLoadDFF("res/models/doorWood.dff", self.doorWoodID)
+		
+	engineImportTXD(self.texturePack, self.doorWoodID)
+	engineReplaceModel(self.doorWoodModel, self.doorWoodID)
+	engineReplaceCOL(self.doorCol, self.doorWoodID)
 
 	self:setLodDistance()
 end

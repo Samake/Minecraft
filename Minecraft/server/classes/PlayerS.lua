@@ -19,6 +19,7 @@ function PlayerS:constructor(parent, player, id)
 	self.slots[3] = {item = "grassBlock", count = 999}
 	self.slots[4] = {item = "sandBlock", count = 999}
 	self.slots[5] = {item = "glassWhiteBlock", count = 999}
+	self.slots[6] = {item = "doorWood", count = 999}
 	
 	self.currentSlot = 1
 	
