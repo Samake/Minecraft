@@ -26,7 +26,6 @@ function BlockS:constructor(parent, blockProperties)
 	self.rz = 0
 	self.moveDistance = 0.1
 	
-	--dirt block parameters
 	self.isGrowing = "false"
 	self.isSeeded = math.random(1, 2) -- 1 lets growing grass
 	self.hasGrass = "false"
@@ -36,10 +35,14 @@ function BlockS:constructor(parent, blockProperties)
 	self.grassSeedTime = math.random(300, 5000)
 	self.seedFactor = 0
 	self.seedValue = math.random(10, 50) / 100000
+
 	
 	if (self.type == "grassPlant") then
 		self.rx = 90
 		self.z = blockProperties.z - 1.0
+	elseif (self.type == "sapplingOak") then
+		self.rx = 90
+		self.z = blockProperties.z
 	end
 	
 	self.childBlock = nil
@@ -199,7 +202,9 @@ function BlockS:destructor()
 
 	self:clear()
 	
-	triggerClientEvent("onBlockDestroyed", root, self.x, self.y, self.z, self.color.r, self.color.g, self.color.b, self.color.a, 0.015, 10)
+	if (getResourceState(getThisResource()) ~= "stopping") then
+		triggerClientEvent("onBlockDestroyed", root, self.x, self.y, self.z, self.color.r, self.color.g, self.color.b, self.color.a, 0.018, 15)
+	end
 	
 	mainOutput("BlockS " .. self.type .. " with id " .. self.id .. " was destroyed.")
 end

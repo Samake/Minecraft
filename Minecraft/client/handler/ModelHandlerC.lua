@@ -19,7 +19,7 @@ function ModelHandlerC:constructor(parent)
 	
 	-- // terrain // --
 	self.terrainID = 15049
-	self.terrainModel = engineLoadDFF("res/models/terrainPlane.dff", self.terrainID)
+	self.terrainModel = engineLoadDFF("res/models/terrainPlane.dff")
 	self.terrainCol = engineLoadCOL("res/models/terrainCol.col")
 		
 	engineImportTXD(self.texturePack, self.terrainID)
@@ -30,14 +30,14 @@ function ModelHandlerC:constructor(parent)
 	-- ids 1851 - 1882
 	
 	self.blockStoneID = 1851
-	self.blockStoneModel = engineLoadDFF("res/models/stoneBlock.dff", self.blockStoneID)
+	self.blockStoneModel = engineLoadDFF("res/models/stoneBlock.dff")
 		
 	engineImportTXD(self.texturePack, self.blockStoneID)
 	engineReplaceModel(self.blockStoneModel, self.blockStoneID)
 	engineReplaceCOL(self.blockCol, self.blockStoneID)
 	
 	self.blockDirtID = 1852
-	self.blockDirtModel = engineLoadDFF("res/models/dirtBlock.dff", self.blockDirtID)
+	self.blockDirtModel = engineLoadDFF("res/models/dirtBlock.dff")
 		
 	engineImportTXD(self.texturePack, self.blockDirtID)
 	engineReplaceModel(self.blockDirtModel, self.blockDirtID)
@@ -45,31 +45,30 @@ function ModelHandlerC:constructor(parent)
 	
 	
 	self.blockGrassID = 1853
-	self.blockGrassModel = engineLoadDFF("res/models/grassBlock.dff", self.blockGrassID)
+	self.blockGrassModel = engineLoadDFF("res/models/grassBlock.dff")
 		
 	engineImportTXD(self.texturePack, self.blockGrassID)
 	engineReplaceModel(self.blockGrassModel, self.blockGrassID)
 	engineReplaceCOL(self.blockCol, self.blockGrassID)
 	
 	self.grassPlantID = 1854
-	self.grassPlantModel = engineLoadDFF("res/models/grassPlant.dff", self.grassPlantID)
+	self.grassPlantModel = engineLoadDFF("res/models/grassPlant.dff")
 		
 	engineImportTXD(self.texturePack, self.grassPlantID)
 	engineReplaceModel(self.grassPlantModel, self.grassPlantID)
 	
 	self.blockSandID = 1855
-	self.blockSandModel = engineLoadDFF("res/models/sandBlock.dff", self.blockSandID)
+	self.blockSandModel = engineLoadDFF("res/models/sandBlock.dff")
 		
 	engineImportTXD(self.texturePack, self.blockSandID)
 	engineReplaceModel(self.blockSandModel, self.blockSandID)
 	engineReplaceCOL(self.blockCol, self.blockSandID)
 	
-	self.blockGlassWhiteID = 1856
-	self.blockGlassWhiteModel = engineLoadDFF("res/models/glassWhiteBlock.dff", self.blockGlassWhiteID)
+	self.sapplingOakID = 1857
+	self.sapplingOakModel = engineLoadDFF("res/models/sapplingOak.dff")
 		
-	engineImportTXD(self.texturePack, self.blockGlassWhiteID)
-	engineReplaceModel(self.blockGlassWhiteModel, self.blockGlassWhiteID)
-	engineReplaceCOL(self.blockCol, self.blockGlassWhiteID)
+	engineImportTXD(self.texturePack, self.sapplingOakID)
+	engineReplaceModel(self.sapplingOakModel, self.sapplingOakID)
 	
 	-- // doors // --
 	-- ids 1830 - 1838

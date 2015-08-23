@@ -42,6 +42,7 @@
 	<file src="res/models/sandBlock.dff" type="client"/>
 	<file src="res/models/glassWhiteBlock.dff" type="client"/>
 	<file src="res/models/doorWood.dff" type="client"/>
+	<file src="res/models/sapplingOak.dff" type="client"/>
 	
 	<!-- shaders  -->
 	<file src="res/shaders/mta-helper.fx" type="client"/>
@@ -58,6 +59,7 @@
 	<file src="res/icons/grassBlockIcon.png" type="client"/>
 	<file src="res/icons/sandBlockIcon.png" type="client"/>
 	<file src="res/icons/stoneBlockIcon.png" type="client"/>
+	<file src="res/icons/saplingOAKIcon.png" type="client"/>
 
 </meta>
 

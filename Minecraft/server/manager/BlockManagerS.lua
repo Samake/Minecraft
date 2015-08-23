@@ -23,6 +23,7 @@ function BlockManagerS:constructor(parent)
 	self.blockModelIDs["sandBlock"] = 1855
 	self.blockModelIDs["glassWhiteBlock"] = 1856
 	self.blockModelIDs["doorWood"] = 1830
+	self.blockModelIDs["sapplingOak"] = 1857
 	
 	self.blockTypeAttributes = {}
 	self.blockTypeAttributes["stoneBlock"] = {life = 3000, needsUpdate = "false", color = {r = 90, g = 90, b = 90, a = 200}}
@@ -32,6 +33,7 @@ function BlockManagerS:constructor(parent)
 	self.blockTypeAttributes["sandBlock"] = {life = 900, needsUpdate = "true", color = {r = 160, g = 140, b = 25, a = 200}}
 	self.blockTypeAttributes["glassWhiteBlock"] = {life = 250, needsUpdate = "false", color = {r = 100, g = 100, b = 130, a = 90}}
 	self.blockTypeAttributes["doorWood"] = {life = 10000, needsUpdate = "true", color = {r = 80, g = 35, b = 5, a = 200}}
+	self.blockTypeAttributes["sapplingOak"] = {life = 250, needsUpdate = "true", color = {r = 35, g = 128, b = 35, a = 200}}
 	
 	self.m_Update = bind(self.update, self)
 	self.updateTimer = setTimer(self.m_Update, self.updateInterval, 0)
