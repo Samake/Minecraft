@@ -21,6 +21,8 @@ end
 function InventoryHandlerC:onClientCharacter(character)
 	if (character == "1") or (character == "2") or (character == "3") or (character == "4") or (character == "5") or (character == "6") or (character == "7") or (character == "8") or (character == "9") then
 		triggerServerEvent("onPlayerSwitchSlot", root, self.player, tonumber(character))
+		triggerEvent("onPlayerSwitchSlot", root, tonumber(character))
+		
 		mainOutput("Slot choosed: " .. character)
 	end
 end

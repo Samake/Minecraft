@@ -10,7 +10,7 @@ ShaderDiffuseLightC = {}
 function ShaderDiffuseLightC:constructor(parent)
 	mainOutput("ShaderDiffuseLightC was loaded.")
 	
-	self.mainClass = parent
+	self.shaderManager = parent
 	self.effectRange = 256
 	
 	self.excludingTextures = 	{	"waterclear256",
@@ -78,7 +78,7 @@ function ShaderDiffuseLightC:constructor(parent)
 	self.diffuseLightShader = dxCreateShader("res/shaders/diffuseLight.fx", 0, self.effectRange, true, "object")
 	
 	if (not self.diffuseLightShader) then
-		mainOutput("CLIENT // Loading diffuse light shader failed. Please use ´/debugscript 3´ for further details")
+		mainOutput("FAIL // Loading diffuse light shader failed. Please use ´/debugscript 3´ for further details")
 		
 		self:removeShaders()
 	else

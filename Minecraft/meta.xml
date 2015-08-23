@@ -12,6 +12,7 @@
 	<script src="client/manager/ShaderManagerC.lua" type="client" />
 	<script src="client/classes/BlockCursorC.lua" type="client" />
 	<script src="client/classes/BlockEventsC.lua" type="client" />
+	<script src="client/classes/GUIInventarSlotsC.lua" type="client" />
 	<script src="client/classes/ShaderDiffuseLightC.lua" type="client" />
 	
 	<!-- server scripts  -->
@@ -44,6 +45,10 @@
 	<!-- shaders  -->
 	<file src="res/shaders/mta-helper.fx" type="client"/>
 	<file src="res/shaders/diffuseLight.fx" type="client"/>
+	
+	<!-- textures  -->
+	<file src="res/textures/invSlotsBG.png" type="client"/>
+	<file src="res/textures/invSlotsFrame.png" type="client"/>
 
 </meta>
 
