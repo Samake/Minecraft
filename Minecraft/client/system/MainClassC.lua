@@ -38,6 +38,14 @@ function MainClassC:init()
 		self.inventoryHandler = new(InventoryHandlerC, self)
 	end
 	
+	if (not self.guiManager) then
+		self.guiManager = new(GUIManagerC, self)
+	end
+	
+	if (not self.shaderManager) then
+		self.shaderManager = new(ShaderManagerC, self)
+	end
+	
 	if (not self.blockCursor) then
 		self.blockCursor = new(BlockCursorC, self)
 	end
@@ -66,6 +74,14 @@ function MainClassC:update()
 		self.actionHandler:update()
 	end
 	
+	if (self.guiManager) then
+		self.guiManager:update()
+	end
+	
+	if (self.shaderManager) then
+		self.shaderManager:update()
+	end
+	
 	if (self.blockCursor) then
 		self.blockCursor:update()
 	end
@@ -86,6 +102,16 @@ function MainClassC:clear()
 	if (self.inventoryHandler) then
 		delete(self.inventoryHandler)
 		self.inventoryHandler = nil
+	end
+	
+	if (self.guiManager) then
+		delete(self.guiManager)
+		self.guiManager = nil
+	end
+	
+	if (self.shaderManager) then
+		delete(self.shaderManager)
+		self.shaderManager = nil
 	end
 	
 	if (self.blockCursor) then

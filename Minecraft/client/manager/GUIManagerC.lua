@@ -16,6 +16,12 @@ function GUIManagerC:constructor(parent)
 end
 
 
+function GUIManagerC:update()
+	
+	
+end
+
+
 function GUIManagerC:destructor()
 	
 	mainOutput("GUIManagerC was deleted.")

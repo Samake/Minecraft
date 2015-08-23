@@ -12,6 +12,7 @@
 	<script src="client/manager/ShaderManagerC.lua" type="client" />
 	<script src="client/classes/BlockCursorC.lua" type="client" />
 	<script src="client/classes/BlockEventsC.lua" type="client" />
+	<script src="client/classes/ShaderDiffuseLightC.lua" type="client" />
 	
 	<!-- server scripts  -->
 	<script src="server/system/MainClassS.lua" type="server" />
@@ -39,6 +40,10 @@
 	<file src="res/models/sandBlock.dff" type="client"/>
 	<file src="res/models/glassWhiteBlock.dff" type="client"/>
 	<file src="res/models/doorWood.dff" type="client"/>
+	
+	<!-- shaders  -->
+	<file src="res/shaders/mta-helper.fx" type="client"/>
+	<file src="res/shaders/diffuseLight.fx" type="client"/>
 
 </meta>
 

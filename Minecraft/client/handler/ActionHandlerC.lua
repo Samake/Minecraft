@@ -79,11 +79,8 @@ function ActionHandlerC:placeBlock(button, state)
 	if (state == "down") then
 		if (self.tx) and (self.ty) and (self.tz) then
 			if (self.hitElement) then
-				outputChatBox("TEST1")
 				if (isElement(self.hitElement.element)) then
-					outputChatBox("TEST2: " .. tostring(self.hitElement.type))
 					if (self.hitElement.type == "MCDOOR") then
-						outputChatBox("TEST3")
 						triggerServerEvent("onClientDoorAction", root, self.hitElement.element)
 						return
 					end
