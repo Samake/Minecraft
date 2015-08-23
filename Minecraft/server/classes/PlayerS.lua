@@ -12,6 +12,7 @@ function PlayerS:constructor(parent, player, id)
 	
 	self.playerManager = parent
 	self.player = player
+	self.playerStats = {}
 	self.id = id
 	self.slots = {}
 	self.slots[1] = {item = "stoneBlock", count = 999}
@@ -20,6 +21,9 @@ function PlayerS:constructor(parent, player, id)
 	self.slots[4] = {item = "sandBlock", count = 999}
 	self.slots[5] = {item = "glassWhiteBlock", count = 999}
 	self.slots[6] = {item = "doorWood", count = 999}
+	self.slots[7] = nil
+	self.slots[8] = nil
+	self.slots[9] = nil
 	
 	self.currentSlot = 1
 	
@@ -38,6 +42,14 @@ function PlayerS:constructor(parent, player, id)
 	self.m_OnPlayerSwitchSlot = bind(self.onPlayerSwitchSlot, self)
 	addEvent("onPlayerSwitchSlot", true)
 	addEventHandler("onPlayerSwitchSlot", root, self.m_OnPlayerSwitchSlot)
+end
+
+
+function PlayerS:update()
+	self.playerStats.slots = self.slots 
+	self.playerStats.currentSlot = self.currentSlot
+	
+	triggerClientEvent("updatePlayerStats", self.player, self.playerStats)
 end
 
 

@@ -11,6 +11,8 @@ function PlayerManagerS:constructor(parent)
 	mainOutput("PlayerManagerS was loaded.")
 	
 	self.mainClass = parent
+	self.updateInterval = 500
+	
 	self.spawnPlaces = {}
 	self.spawnPlaces[1] = {x = -3000, y = -3000, z = 7}
 	self.spawnPlaces[2] = {x = -3010, y = -3000, z = 7}
@@ -37,6 +39,18 @@ function PlayerManagerS:constructor(parent)
 	addEventHandler("onPlayerQuit", root, self.m_OnPlayerQuit)
 	
 	self:init()
+	
+	self.m_Update = bind(self.update, self)
+	self.updateTimer = setTimer(self.m_Update, self.updateInterval, 0)
+end
+
+
+function PlayerManagerS:update()
+	for index, playerInstance in pairs(self.players) do
+        if (playerInstance) then
+            playerInstance:update()
+        end
+    end
 end
 
 
@@ -153,6 +167,11 @@ function PlayerManagerS:destructor()
 	removeEventHandler("onPlayerWasted", root, self.m_OnPlayerWasted)
 	removeEventHandler("onPlayerQuit", root, self.m_OnPlayerQuit)
 
+	if (self.updateTimer) then
+		self.updateTimer:destroy()
+		self.updateTimer = nil
+	end
+	
 	self:clear()
 	
 	mainOutput("PlayerManagerS was deleted.")

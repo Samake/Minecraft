@@ -30,9 +30,26 @@ function GUIInventarSlotsC:constructor(parent)
 		return
 	end
 	
+	self.playerStats = nil
+	self.playerSlots = nil
+	
 	self.m_OnPlayerSwitchSlot = bind(self.onPlayerSwitchSlot, self)
 	addEvent("onPlayerSwitchSlot", true)
 	addEventHandler("onPlayerSwitchSlot", root, self.m_OnPlayerSwitchSlot)
+	
+	self.m_UpdatePlayerStats = bind(self.updatePlayerStats, self)
+	addEvent("updatePlayerStats", true)
+	addEventHandler("updatePlayerStats", root, self.m_UpdatePlayerStats)
+end
+
+
+function GUIInventarSlotsC:updatePlayerStats(playerStats)
+	if (playerStats) then
+		self.playerStats = playerStats
+		self.playerSlots = playerStats.slots
+	end
+	
+	self.iconList = self.guiManager:getItemIcons()
 end
 
 
@@ -45,10 +62,25 @@ function GUIInventarSlotsC:update()
 		dxDrawImage(startX, startY, self.guiWidth, self.inventarSlotSize, self.inventarSlotsBG)
 		
 		-- // icon layer // --
+		if (self.iconList) then
+			if (self.playerStats) and (self.playerSlots) then
+				for i = 1, self.inventarSlots, 1 do
+					if (self.playerSlots[i]) then
+						if (self.playerSlots[i].item) then
+							local slotItem = self.playerSlots[i].item
+							local iconTex = self.iconList[self.playerSlots[i].item]
+							local iconPos = {x = (startX + self.inventarSlotSize * (i - 1)) + 6, y = startY + 6}
+							
+							dxDrawImage(iconPos.x, iconPos.y, self.inventarSlotSize - 12, self.inventarSlotSize - 12, iconTex)
+						end
+					end
+				end
+			end
+		end
 		
 		-- // frame layer // --
-		for i = 0, self.inventarSlots - 1, 1 do
-			dxDrawImage(startX + self.inventarSlotSize * i, startY, self.inventarSlotSize, self.inventarSlotSize, self.inventarSlotsFrame)
+		for j = 0, self.inventarSlots - 1, 1 do
+			dxDrawImage(startX + self.inventarSlotSize * j, startY, self.inventarSlotSize, self.inventarSlotSize, self.inventarSlotsFrame)
 		end
 		
 		-- // selected slot layer // --
@@ -76,6 +108,7 @@ end
 function GUIInventarSlotsC:destructor()
 
 	removeEventHandler("onPlayerSwitchSlot", root, self.m_OnPlayerSwitchSlot)
+	removeEventHandler("updatePlayerStats", root, self.m_UpdatePlayerStats)
 
 	if (self.inventarSlotsFrame) then
 		self.inventarSlotsFrame:destroy()

@@ -6,6 +6,7 @@
 	<!-- client scripts  -->
 	<script src="client/system/MainClassC.lua" type="client" />
 	<script src="client/handler/ModelHandlerC.lua" type="client" />
+	<script src="client/handler/IconHandlerC.lua" type="client" />
 	<script src="client/handler/ActionHandlerC.lua" type="client" />
 	<script src="client/handler/InventoryHandlerC.lua" type="client" />
 	<script src="client/manager/GUIManagerC.lua" type="client" />
@@ -49,6 +50,14 @@
 	<!-- textures  -->
 	<file src="res/textures/invSlotsBG.png" type="client"/>
 	<file src="res/textures/invSlotsFrame.png" type="client"/>
+	
+	<!-- icons  -->
+	<file src="res/icons/dirtBlockIcon.png" type="client"/>
+	<file src="res/icons/doorWoodIcon.png" type="client"/>
+	<file src="res/icons/glassWhiteBlockIcon.png" type="client"/>
+	<file src="res/icons/grassBlockIcon.png" type="client"/>
+	<file src="res/icons/sandBlockIcon.png" type="client"/>
+	<file src="res/icons/stoneBlockIcon.png" type="client"/>
 
 </meta>
 
