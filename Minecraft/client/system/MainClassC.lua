@@ -53,6 +53,10 @@ function MainClassC:init()
 	if (not self.blockEvents) then
 		self.blockEvents = new(BlockEventsC, self)
 	end
+	
+	if (not self.testClass) then
+		self.testClass = new(TestClassC, self)
+	end
 end
 
 
@@ -122,6 +126,11 @@ function MainClassC:clear()
 	if (self.blockEvents) then
 		delete(self.blockEvents)
 		self.blockEvents = nil
+	end
+	
+	if (self.testClass) then
+		delete(self.testClass)
+		self.testClass = nil
 	end
 end
 

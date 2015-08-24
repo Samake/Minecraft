@@ -5,6 +5,9 @@ Very alpha yet!!!
 
  **** Steering ****
  
- - Keys 1 - 9 choose inventory slots
+ - Keys "1 - 9" choose inventory slots
  - right mouse - place block
  - left mouse delete block
+ - Key "M" enable / disbale shaders
+ - Key "N" enable / disbale object streaming
+ - Key "B" spawns a layer of testblocks

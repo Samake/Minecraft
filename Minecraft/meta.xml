@@ -16,6 +16,8 @@
 	<script src="client/classes/GUIInventarSlotsC.lua" type="client" />
 	<script src="client/classes/ShaderDiffuseLightC.lua" type="client" />
 	
+	<script src="client/classes/TestClassC.lua" type="client" />
+	
 	<!-- server scripts  -->
 	<script src="server/system/MainClassS.lua" type="server" />
 	<script src="server/handler/TerrainHandlerS.lua" type="server" />
@@ -24,6 +26,8 @@
 	<script src="server/classes/PlayerS.lua" type="server" />
 	<script src="server/classes/BlockS.lua" type="server" />
 	<script src="server/classes/DoorS.lua" type="server" />
+	
+	<script src="server/classes/TestClassS.lua" type="server" />
 	
 	<!-- shared scripts  -->
 	<script src="shared/classlib.lua" type="shared" />

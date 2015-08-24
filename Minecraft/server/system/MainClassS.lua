@@ -31,6 +31,10 @@ function MainClassS:init()
 	if (not self.blockManager) then
 		self.blockManager = new(BlockManagerS, self)
 	end
+	
+	if (not self.testClass) then
+		self.testClass = new(TestClassS, self)
+	end
 end
 
 
@@ -48,6 +52,11 @@ function MainClassS:clear()
 	if (self.blockManager) then
 		delete(self.blockManager)
 		self.blockManager = nil
+	end
+	
+	if (self.testClass) then
+		delete(self.testClass)
+		self.testClass = nil
 	end
 end
 
