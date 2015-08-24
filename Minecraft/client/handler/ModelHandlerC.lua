@@ -64,11 +64,32 @@ function ModelHandlerC:constructor(parent)
 	engineReplaceModel(self.blockSandModel, self.blockSandID)
 	engineReplaceCOL(self.blockCol, self.blockSandID)
 	
+	self.blockGlassWhiteID = 1856
+	self.blockGlassWhiteModel = engineLoadDFF("res/models/glassWhiteBlock.dff", self.blockGlassWhiteID)
+		
+	engineImportTXD(self.texturePack, self.blockGlassWhiteID)
+	engineReplaceModel(self.blockGlassWhiteModel, self.blockGlassWhiteID)
+	engineReplaceCOL(self.blockCol, self.blockGlassWhiteID)
+	
 	self.sapplingOakID = 1857
 	self.sapplingOakModel = engineLoadDFF("res/models/sapplingOak.dff")
 		
 	engineImportTXD(self.texturePack, self.sapplingOakID)
 	engineReplaceModel(self.sapplingOakModel, self.sapplingOakID)
+	
+	self.blockWoodOAKID = 1858
+	self.blockWoodOAKModel = engineLoadDFF("res/models/woodBlockOAK.dff")
+		
+	engineImportTXD(self.texturePack, self.blockWoodOAKID)
+	engineReplaceModel(self.blockWoodOAKModel, self.blockWoodOAKID)
+	engineReplaceCOL(self.blockCol, self.blockWoodOAKID)
+	
+	self.blockLeavesOAKID = 1859
+	self.blockLeavesOAKModel = engineLoadDFF("res/models/leavesBlockOAK.dff")
+		
+	engineImportTXD(self.texturePack, self.blockLeavesOAKID)
+	engineReplaceModel(self.blockLeavesOAKModel, self.blockLeavesOAKID)
+	engineReplaceCOL(self.blockCol, self.blockLeavesOAKID)
 	
 	-- // doors // --
 	-- ids 1830 - 1838

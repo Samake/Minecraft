@@ -22,8 +22,8 @@ function PlayerS:constructor(parent, player, id)
 	self.slots[5] = {item = "glassWhiteBlock", count = 999}
 	self.slots[6] = {item = "doorWood", count = 999}
 	self.slots[7] = {item = "sapplingOak", count = 999}
-	self.slots[8] = nil
-	self.slots[9] = nil
+	self.slots[8] = {item = "woodBlockOAK", count = 999}
+	self.slots[9] = {item = "leavesBlockOAK", count = 999}
 	
 	self.currentSlot = 1
 	

@@ -20,6 +20,8 @@ function IconHandlerC:constructor(parent)
 	self.icons["glassWhiteBlock"] = dxCreateTexture("res/icons/glassWhiteBlockIcon.png")
 	self.icons["doorWood"] = dxCreateTexture("res/icons/doorWoodIcon.png")
 	self.icons["sapplingOak"] = dxCreateTexture("res/icons/saplingOAKIcon.png")
+	self.icons["woodBlockOAK"] = dxCreateTexture("res/icons/woodBlockOAKIcon.png")
+	self.icons["leavesBlockOAK"] = dxCreateTexture("res/icons/leavesOAKIcon.png")
 end
 
 
