@@ -12,8 +12,19 @@ function DebugClassS:constructor(parent)
 	
 	self.mainClass = parent
 	self.applicationName = "Minecraft"
+	
+	self.updateInterval = 500
+	
+	self.m_Update = bind(self.update, self)
+	self.updateTimer = setTimer(self.m_Update, self.updateInterval, 0)
 
 	self.isDebug = "false"
+	
+	self.serverDebugStats = {}
+	self.serverDebugStats.luaTimings = {arg1 = "-", arg2 = "-", arg3 = "-"}
+	self.serverDebugStats.luaMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-"}
+	self.serverDebugStats.libMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-",}
+	self.serverDebugStats.packetUsage = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-", arg5 = "-", arg6 = "-", arg7 = "-"}
 	
 	self.m_ToogleDebug = bind(self.toggleDebug, self)
 	addEvent("enableDebugStats", true)
@@ -22,8 +33,21 @@ end
 
 
 function DebugClassS:update()
-
-
+	if (self.isDebug == "true") then
+		local arg1, arg2, arg3 = self:getLUATimings()
+		self.serverDebugStats.luaTimings = {arg1 = arg1, arg2 = arg2, arg3 = arg3}
+		
+		local arg1, arg2, arg3, arg4 = self:getLUAMemory()
+		self.serverDebugStats.luaMemory = {arg1 = arg1, arg2 = arg2, arg3 = arg3, arg4 = arg4}
+		
+		local arg1, arg2, arg3, arg4 = self:getLibMemory()
+		self.serverDebugStats.libMemory = {arg1 = arg1, arg2 = arg2, arg3 = arg3, arg4 = arg4}
+		
+		local arg1, arg2, arg3, arg4 = self:getPacketUsage()
+		self.serverDebugStats.packetUsage = {arg1 = arg1, arg2 = arg2, arg3 = arg3, arg4 = arg4, arg5 = arg5, arg6 = arg6, arg7 = arg7}
+		
+		triggerClientEvent("receiveServerDebugStats", root, self.serverDebugStats)
+	end
 end
 
 
@@ -76,8 +100,43 @@ function DebugClassS:getPacketUsage()
 end
 
 
+function DebugClassS:sendNetworkStats()
+	for index, player in pairs(getElementsByType("player")) do
+		if (player) then
+			local netWorkstats = getNetworkStats (player)
+			triggerClientEvent(player, "receiveServerNetworkStats", player, netWorkstats)
+		end
+	end
+end
+
+
 function DebugClassS:destructor()
 	removeEventHandler("enableDebugStats", root, self.m_ToogleDebug)
 	
+	self.serverDebugStats = nil
+	
+	if (self.updateTimer) then
+		self.updateTimer:destroy()
+		self.updateTimer = nil
+	end
+	
 	mainOutput("DebugClassS was deleted.")
 end
+
+addCommandHandler("n1",
+	function ()
+		local networkData = getNetworkUsageData()["in"]
+		for i, val in pairs(networkData["count"]) do
+			if networkData["bits"][i] > 0 then
+				outputChatBox("ID: " .. i .. ": " .. val .. " - " .. networkData["bits"][i] .. "b")
+			end
+		end
+end)
+
+function netStatus()
+	for index, value in pairs(getNetworkStats()) do
+		outputConsole(index..": "..value)
+	end
+	outputChatBox("Network status output to console")
+end
+addCommandHandler("n2", netStatus)
