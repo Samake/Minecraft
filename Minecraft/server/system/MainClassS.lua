@@ -20,6 +20,10 @@ end
 
 
 function MainClassS:init()
+	if (not self.debugClass) then
+		self.debugClass = new(DebugClassS, self)
+	end
+	
 	if (not self.terrainHandler) then
 		self.terrainHandler = new(TerrainHandlerS, self)
 	end
@@ -57,6 +61,11 @@ function MainClassS:clear()
 	if (self.testClass) then
 		delete(self.testClass)
 		self.testClass = nil
+	end
+	
+	if (self.debugClass) then
+		delete(self.debugClass)
+		self.debugClass = nil
 	end
 end
 

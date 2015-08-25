@@ -5,6 +5,7 @@
 	
 	<!-- client scripts  -->
 	<script src="client/system/MainClassC.lua" type="client" />
+	<script src="client/classes/DebugClassC.lua" type="client" />
 	<script src="client/handler/ModelHandlerC.lua" type="client" />
 	<script src="client/handler/IconHandlerC.lua" type="client" />
 	<script src="client/handler/ActionHandlerC.lua" type="client" />
@@ -20,6 +21,7 @@
 	
 	<!-- server scripts  -->
 	<script src="server/system/MainClassS.lua" type="server" />
+	<script src="server/classes/DebugClassS.lua" type="server" />
 	<script src="server/handler/TerrainHandlerS.lua" type="server" />
 	<script src="server/manager/PlayerManagerS.lua" type="server" />
 	<script src="server/manager/BlockManagerS.lua" type="server" />

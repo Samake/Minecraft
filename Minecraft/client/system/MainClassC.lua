@@ -11,12 +11,11 @@ MainClassC = {}
 function MainClassC:constructor()
 	mainOutput("MainClassC was loaded.")
 	
-	self.isDebug = "true"
+	self.isDebug = "false"
 	self.debugKey = "M"
 	
 	self.m_ToggleDebug = bind(self.toogleDebug, self)
 	bindKey(self.debugKey, "down", self.m_ToggleDebug)
-	
 	
 	self.m_Update = bind(self.update, self)
 	addEventHandler("onClientRender", root, self.m_Update)
@@ -54,6 +53,12 @@ function MainClassC:init()
 		self.blockEvents = new(BlockEventsC, self)
 	end
 	
+	if (self.isDebug == "true") then
+		if (not self.debugClass) then
+			self.debugClass = new(DebugClassC, self)
+		end
+	end
+	
 	if (not self.testClass) then
 		self.testClass = new(TestClassC, self)
 	end
@@ -62,12 +67,22 @@ end
 
 function MainClassC:toogleDebug()
 	if (self.isDebug == "false") then
+		if (not self.debugClass) then
+			self.debugClass = new(DebugClassC, self)
+		end
+		
 		self.isDebug = "true"
 	elseif (self.isDebug == "true") then
+		if (self.debugClass) then
+			delete(self.debugClass)
+			self.debugClass = nil
+		end
+	
 		self.isDebug = "false"
 	end
 	
-	mainOutput("CLIENT // Debug enabled: " .. self.isDebug)
+	mainOutput("Debug Client enabled: " .. self.isDebug)
+	triggerServerEvent("enableDebugStats", root, self.isDebug)
 end
 
 
@@ -88,6 +103,10 @@ function MainClassC:update()
 	
 	if (self.blockCursor) then
 		self.blockCursor:update()
+	end
+	
+	if (self.debugClass) then
+		self.debugClass:update()
 	end
 end
 
@@ -126,6 +145,11 @@ function MainClassC:clear()
 	if (self.blockEvents) then
 		delete(self.blockEvents)
 		self.blockEvents = nil
+	end
+	
+	if (self.debugClass) then
+		delete(self.debugClass)
+		self.debugClass = nil
 	end
 	
 	if (self.testClass) then
