@@ -54,6 +54,7 @@ function DebugClassS:update()
 											timers = #getTimers(), 
 											shaders = #getElementsByType("shader"), 
 											textures = #getElementsByType("texture"), 
+											blocks = #getElementsByType("MCBLOCK") + #getElementsByType("MCDOOR"),
 											all = 	#getElementsByType("player") + 
 													#getElementsByType("ped") + 
 													#getElementsByType("vehicle") +
@@ -63,6 +64,9 @@ function DebugClassS:update()
 													#getElementsByType("texture")}
 		
 		triggerClientEvent("receiveServerDebugStats", root, self.serverDebugStats)
+		
+		self:sendNetworkStats()
+		self:sendPlayerStats()
 	end
 end
 
@@ -119,8 +123,19 @@ end
 function DebugClassS:sendNetworkStats()
 	for index, player in pairs(getElementsByType("player")) do
 		if (player) then
-			local netWorkstats = getNetworkStats (player)
+			local netWorkstats = getNetworkStats(player)
 			triggerClientEvent(player, "receiveServerNetworkStats", player, netWorkstats)
+		end
+	end
+end
+
+
+function DebugClassS:sendPlayerStats()
+	for index, player in pairs(getElementsByType("player")) do
+		if (player) then
+			local playerPos = player:getPosition()
+			local posTable = {x = playerPos.x, y = playerPos.y, z = playerPos.z}
+			triggerClientEvent(player, "receivePlayerStats", player, posTable)
 		end
 	end
 end
@@ -138,21 +153,3 @@ function DebugClassS:destructor()
 	
 	mainOutput("DebugClassS was deleted.")
 end
-
-addCommandHandler("n1",
-	function ()
-		local networkData = getNetworkUsageData()["in"]
-		for i, val in pairs(networkData["count"]) do
-			if networkData["bits"][i] > 0 then
-				outputChatBox("ID: " .. i .. ": " .. val .. " - " .. networkData["bits"][i] .. "b")
-			end
-		end
-end)
-
-function netStatus()
-	for index, value in pairs(getNetworkStats()) do
-		outputConsole(index..": "..value)
-	end
-	outputChatBox("Network status output to console")
-end
-addCommandHandler("n2", netStatus)

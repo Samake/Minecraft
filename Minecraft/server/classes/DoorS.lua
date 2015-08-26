@@ -19,6 +19,9 @@ function DoorS:constructor(parent, blockProperties)
 	self.x = blockProperties.x
 	self.y = blockProperties.y
 	self.z = blockProperties.z - 0.5
+	self.originalX = blockProperties.x
+	self.originalY = blockProperties.y
+	self.originalZ = blockProperties.z
 	self.color = blockProperties.color
 	self.parent = blockProperties.parent
 	self.rx = blockProperties.rx
@@ -65,7 +68,11 @@ function DoorS:init()
 		self.blockModelLOD = createObject(self.modelID, self.x, self.y, self.z, self.rx, self.ry, self.rz, true)
 	end
 	
-	if (self.blockModel) and (self.blockModelLOD) then
+	if (not self.element) then
+		self.element = createElement("MCDOOR", self.id)
+	end
+	
+	if (self.blockModel) and (self.blockModelLOD) and (self.element) then
 		self.blockModelLOD:attach(self.blockModel)
 		
 		self.blockModel:setDoubleSided(true)
@@ -73,6 +80,8 @@ function DoorS:init()
 		
 		self.blockModel:setData("OBJECTTYPE", "MCDOOR", true)
 		self.blockModel:setData("ID", self.id, true)
+		
+		self.element:setPosition(self.originalX, self.originalY, self.originalZ)
 	end
 end
 
@@ -138,12 +147,17 @@ end
 function DoorS:clear()
 	if (self.blockModel) then
 		self.blockModel:destroy()
-		self.blockModel= nil
+		self.blockModel = nil
 	end
 	
 	if (self.blockModelLOD) then
 		self.blockModelLOD:destroy()
-		self.blockModelLOD= nil
+		self.blockModelLOD = nil
+	end
+	
+	if (self.element) then
+		self.element:destroy()
+		self.element = nil
 	end
 end
 

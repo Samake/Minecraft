@@ -20,9 +20,9 @@ function TestClassS:constructor(parent)
 	self.terrainOwner = "system"
 	self.terrainTypes = {"stoneBlock", "dirtBlock"}
 	
-	self.terrainSize = 12
+	self.terrainSize = 6
 	self.currentLayer = 0
-	self.maxLayers = 8
+	self.maxLayers = 12
 	
 	self.m_CreateLayer = bind(self.createLayer, self)
 	addEvent("CreateLayer", true)
@@ -51,11 +51,8 @@ function TestClassS:startTerrainCreation()
 			local y = self.startY + 1 * j
 			local z = self.z + 0.5
 			local randomType = math.random(1, #self.terrainTypes)
-			local randomIsBlock = math.random(10, 50)
-			
-			if (randomIsBlock < 26 - self.currentLayer * 3) then
-				self.blockManager:createBlock(self.terrainOwner, self.terrainTypes[randomType], x, y, z)
-			end
+				
+			self.blockManager:createBlock(self.terrainOwner, self.terrainTypes[randomType], x, y, z)
 		end
 	end
 end
