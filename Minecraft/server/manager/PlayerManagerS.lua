@@ -122,13 +122,25 @@ end
 
 
 function PlayerManagerS:removePlayerInstance(player)
-	for index, playerInstance in pairs(self.players) do
-        if (playerInstance) then
-            if (playerInstance.player == player) then
-				delete(playerInstance)
-				playerInstance = nil
+	if (player) then
+		for index, playerInstance in pairs(self.players) do
+			if (playerInstance) then
+				if (playerInstance.player == player) then
+					delete(playerInstance)
+					playerInstance = nil
+				end
 			end
-        end
+		end
+	end
+end
+
+
+function PlayerManagerS:removePlayerInstancebyID(id)
+	if (id) then
+		if (self.players[id]) then
+			delete(self.players[id])
+			self.players[id] = nil
+		end
     end
 end
 

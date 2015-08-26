@@ -11,7 +11,7 @@ function DebugClassS:constructor(parent)
 	mainOutput("DebugClassS was loaded.")
 	
 	self.mainClass = parent
-	self.applicationName = "Minecraft"
+	self.applicationName = getResourceName(getThisResource())
 	
 	self.updateInterval = 500
 	
@@ -25,6 +25,7 @@ function DebugClassS:constructor(parent)
 	self.serverDebugStats.luaMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-"}
 	self.serverDebugStats.libMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-",}
 	self.serverDebugStats.packetUsage = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-", arg5 = "-", arg6 = "-", arg7 = "-"}
+	self.serverDebugStats.elements = {players = "-", peds = "-", vehicles = "-", objects = "-", timers = "-", shaders = "-", textures = "-", all = "-"}
 	
 	self.m_ToogleDebug = bind(self.toggleDebug, self)
 	addEvent("enableDebugStats", true)
@@ -45,6 +46,21 @@ function DebugClassS:update()
 		
 		local arg1, arg2, arg3, arg4 = self:getPacketUsage()
 		self.serverDebugStats.packetUsage = {arg1 = arg1, arg2 = arg2, arg3 = arg3, arg4 = arg4, arg5 = arg5, arg6 = arg6, arg7 = arg7}
+		
+		self.serverDebugStats.elements = {	players = #getElementsByType("player"), 
+											peds = #getElementsByType("ped"), 
+											vehicles = #getElementsByType("vehicle"), 
+											objects = #getElementsByType("object"), 
+											timers = #getTimers(), 
+											shaders = #getElementsByType("shader"), 
+											textures = #getElementsByType("texture"), 
+											all = 	#getElementsByType("player") + 
+													#getElementsByType("ped") + 
+													#getElementsByType("vehicle") +
+													#getElementsByType("object") +
+													#getTimers() +
+													#getElementsByType("shader") +
+													#getElementsByType("texture")}
 		
 		triggerClientEvent("receiveServerDebugStats", root, self.serverDebugStats)
 	end

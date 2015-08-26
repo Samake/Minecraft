@@ -46,10 +46,14 @@ end
 
 
 function PlayerS:update()
-	self.playerStats.slots = self.slots 
-	self.playerStats.currentSlot = self.currentSlot
-	
-	triggerClientEvent("updatePlayerStats", self.player, self.playerStats)
+	if (self.player) then
+		self.playerStats.slots = self.slots 
+		self.playerStats.currentSlot = self.currentSlot
+		
+		triggerClientEvent("updatePlayerStats", self.player, self.playerStats)
+	else
+		self.playerManager:removePlayerInstancebyID(self.id)
+	end
 end
 
 

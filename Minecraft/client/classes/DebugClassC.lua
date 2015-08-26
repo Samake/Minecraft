@@ -11,12 +11,12 @@ function DebugClassC:constructor(parent)
 	mainOutput("DebugClassC was loaded.")
 	
 	self.mainClass = parent
-	self.applicationName = "Minecraft"
+	self.applicationName = getResourceName(getThisResource())
 	self.screenWidth, self.screenHeight = guiGetScreenSize()
 	
 	self.postGUI = false
 	self.subPixelPositioning = false
-	self.fontSize = 0.85
+	self.fontSize = 0.9
 	
 	self.showEventParamaters = "false"
 	self.showFunctionParamaters = "false"
@@ -27,12 +27,14 @@ function DebugClassC:constructor(parent)
 	self.clientDebugStats.luaMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-"}
 	self.clientDebugStats.libMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-",}
 	self.clientDebugStats.packetUsage = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-", arg5 = "-", arg6 = "-", arg7 = "-"}
+	self.clientDebugStats.elements = {players = "-", peds = "-", vehicles = "-", objects = "-", timers = "-", shaders = "-", textures = "-", all = "-"}
 	
 	self.serverDebugStats = {}
 	self.serverDebugStats.luaTimings = {arg1 = "-", arg2 = "-", arg3 = "-"}
 	self.serverDebugStats.luaMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-"}
 	self.serverDebugStats.libMemory = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-",}
 	self.serverDebugStats.packetUsage = {arg1 = "-", arg2 = "-", arg3 = "-", arg4 = "-", arg5 = "-", arg6 = "-", arg7 = "-"}
+	self.serverDebugStats.elements = {players = "-", peds = "-", vehicles = "-", objects = "-", timers = "-", shaders = "-", textures = "-", all = "-"}
 	
 	self.clientNetworkStats = {}
 	self.serverNetworkStats = {}
@@ -69,6 +71,21 @@ function DebugClassC:updateSlowly()
 	
 	local arg1, arg2, arg3, arg4 = self:getPacketUsage()
 	self.clientDebugStats.packetUsage = {arg1 = arg1, arg2 = arg2, arg3 = arg3, arg4 = arg4, arg5 = arg5, arg6 = arg6, arg7 = arg7}
+	
+	self.clientDebugStats.elements = {	players = #getElementsByType("player"), 
+											peds = #getElementsByType("ped"), 
+											vehicles = #getElementsByType("vehicle"), 
+											objects = #getElementsByType("object"), 
+											timers = #getTimers(), 
+											shaders = #getElementsByType("shader"), 
+											textures = #getElementsByType("texture"), 
+											all = 	#getElementsByType("player") + 
+													#getElementsByType("ped") + 
+													#getElementsByType("vehicle") +
+													#getElementsByType("object") +
+													#getTimers() +
+													#getElementsByType("shader") +
+													#getElementsByType("texture")}
 end
 
 
@@ -88,6 +105,23 @@ function DebugClassC:update()
 	self:drawLUAMemoryServer()
 	self:drawLibMemoryServer()
 	self:drawPacketUsageServer()
+	
+	self:drawElementsPlayersClient()
+	self:drawElementsPlayersServer()
+	self:drawElementsPedsClient()
+	self:drawElementsPedsServer()
+	self:drawElementsVehiclesClient()
+	self:drawElementsVehiclesServer()
+	self:drawElementsObjectsClient()
+	self:drawElementsObjectsServer()
+	self:drawElementsTimersClient()
+	self:drawElementsTimersServer()
+	self:drawElementsShadersClient()
+	self:drawElementsShadersServer()
+	self:drawElementsTexturesClient()
+	self:drawElementsTexturesServer()
+	self:drawElementsAllClient()
+	self:drawElementsAllServer()
 	
 	self:drawNetworkDiagramBGClient()
 	self:drawNetworkDiagramBGServer()
@@ -153,7 +187,7 @@ end
 
 
 function DebugClassC:drawLibMemoryClient()
-	local arg1, arg2, arg3, arg4 = self.clientDebugStats.luaMemory.arg1, self.clientDebugStats.luaMemory.arg2, self.clientDebugStats.luaMemory.arg3, self.clientDebugStats.luaMemory.arg4
+	local arg1, arg2, arg3, arg4 = self.clientDebugStats.libMemory.arg1, self.clientDebugStats.libMemory.arg2, self.clientDebugStats.libMemory.arg3, self.clientDebugStats.libMemory.arg4
 	local data = tostring(arg2) .. " / " .. tostring(arg3) .. " / " .. tostring(arg4)
 	
 	local x1, y1 = self.screenWidth * 0.11, self.screenHeight * 0.2
@@ -196,6 +230,182 @@ function DebugClassC:drawPacketUsageServer()
 	local x2, y2 = self.screenWidth * 0.76, self.screenHeight * 0.2	
 	
 	dxDrawText("Packet Usage: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsPlayersClient()
+	local data = tostring(self.clientDebugStats.elements.players)
+	
+	local x1, y1 = self.screenWidth * 0.11, self.screenHeight * 0.23
+	local x2, y2 = self.screenWidth * 0.17, self.screenHeight * 0.23
+	
+	dxDrawText("Players: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsPlayersServer()
+	local data = tostring(self.serverDebugStats.elements.players)
+	
+	local x1, y1 = self.screenWidth * 0.57, self.screenHeight * 0.23
+	local x2, y2 = self.screenWidth * 0.63, self.screenHeight * 0.23
+	
+	dxDrawText("Players: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsPedsClient()
+	local data = tostring(self.clientDebugStats.elements.peds)
+	
+	local x1, y1 = self.screenWidth * 0.3, self.screenHeight * 0.23
+	local x2, y2 = self.screenWidth * 0.36, self.screenHeight * 0.23
+	
+	dxDrawText("Peds: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsPedsServer()
+	local data = tostring(self.serverDebugStats.elements.peds)
+	
+	local x1, y1 = self.screenWidth * 0.7, self.screenHeight * 0.23
+	local x2, y2 = self.screenWidth * 0.76, self.screenHeight * 0.23
+	
+	dxDrawText("Peds: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsVehiclesClient()
+	local data = tostring(self.clientDebugStats.elements.vehicles)
+	
+	local x1, y1 = self.screenWidth * 0.11, self.screenHeight * 0.25
+	local x2, y2 = self.screenWidth * 0.17, self.screenHeight * 0.25
+	
+	dxDrawText("Vehicles: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsVehiclesServer()
+	local data = tostring(self.serverDebugStats.elements.vehicles)
+	
+	local x1, y1 = self.screenWidth * 0.57, self.screenHeight * 0.25
+	local x2, y2 = self.screenWidth * 0.63, self.screenHeight * 0.25
+	
+	dxDrawText("Vehicles: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsObjectsClient()
+	local data = tostring(self.clientDebugStats.elements.objects)
+	
+	local x1, y1 = self.screenWidth * 0.3, self.screenHeight * 0.25
+	local x2, y2 = self.screenWidth * 0.36, self.screenHeight * 0.25
+	
+	dxDrawText("Objects: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsObjectsServer()
+	local data = tostring(self.serverDebugStats.elements.objects)
+	
+	local x1, y1 = self.screenWidth * 0.7, self.screenHeight * 0.25
+	local x2, y2 = self.screenWidth * 0.76, self.screenHeight * 0.25
+	
+	dxDrawText("Objects: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsTimersClient()
+	local data = tostring(self.clientDebugStats.elements.timers)
+	
+	local x1, y1 = self.screenWidth * 0.11, self.screenHeight * 0.27
+	local x2, y2 = self.screenWidth * 0.17, self.screenHeight * 0.27
+	
+	dxDrawText("Timers: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsTimersServer()
+	local data = tostring(self.serverDebugStats.elements.timers)
+	
+	local x1, y1 = self.screenWidth * 0.57, self.screenHeight * 0.27
+	local x2, y2 = self.screenWidth * 0.63, self.screenHeight * 0.27
+	
+	dxDrawText("Timers: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsShadersClient()
+	local data = tostring(self.clientDebugStats.elements.shaders)
+	
+	local x1, y1 = self.screenWidth * 0.3, self.screenHeight * 0.27
+	local x2, y2 = self.screenWidth * 0.36, self.screenHeight * 0.27
+	
+	dxDrawText("Shaders: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsShadersServer()
+	local data = tostring(self.serverDebugStats.elements.shaders)
+	
+	local x1, y1 = self.screenWidth * 0.7, self.screenHeight * 0.27
+	local x2, y2 = self.screenWidth * 0.76, self.screenHeight * 0.27
+	
+	dxDrawText("Shaders: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsTexturesClient()
+	local data = tostring(self.clientDebugStats.elements.textures)
+	
+	local x1, y1 = self.screenWidth * 0.11, self.screenHeight * 0.29
+	local x2, y2 = self.screenWidth * 0.17, self.screenHeight * 0.29
+	
+	dxDrawText("Textures: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsTexturesServer()
+	local data = tostring(self.serverDebugStats.elements.textures)
+	
+	local x1, y1 = self.screenWidth * 0.57, self.screenHeight * 0.29
+	local x2, y2 = self.screenWidth * 0.63, self.screenHeight * 0.29
+	
+	dxDrawText("Textures: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsAllClient()
+	local data = tostring(self.clientDebugStats.elements.all)
+	
+	local x1, y1 = self.screenWidth * 0.3, self.screenHeight * 0.29
+	local x2, y2 = self.screenWidth * 0.36, self.screenHeight * 0.29
+	
+	dxDrawText("All Elements: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
+end
+
+
+function DebugClassC:drawElementsAllServer()
+	local data = tostring(self.serverDebugStats.elements.all)
+	
+	local x1, y1 = self.screenWidth * 0.7, self.screenHeight * 0.29
+	local x2, y2 = self.screenWidth * 0.76, self.screenHeight * 0.29
+	
+	dxDrawText("All Elements: ", x1, y1, x1, y1, tocolor(220, 220, 220, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
 	dxDrawText(data, x2, y2, x2, y2, tocolor(200, 200, 90, 180), self.fontSize, "default", "left", "center", false, false, self.postGUI, true)
 end
 
